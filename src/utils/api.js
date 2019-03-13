@@ -1,5 +1,6 @@
 import wepy from 'wepy'
 
+const DEBUG = true
 // 服务器接口地址
 const host = 'http://larabbs.test/api'
 
@@ -17,6 +18,11 @@ const request = async (options, showLoading = true) => {
   }
   // 拼接请求地址
   options.url = host + '/' + options.url
+  if(DEBUG){
+    options.header = {
+      'Cookie': 'XDEBUG_SESSION=PHPSTORM'
+    }
+  }
   // 调用小程序的 request 方法
   let response = await wepy.request(options)
 
