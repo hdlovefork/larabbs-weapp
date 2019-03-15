@@ -104,7 +104,7 @@
           } catch (err) {
             wepy.showModal({
               title: '提示',
-              content: '服务器错误，请联系管理员'
+              content: '服务器错误，请联系管理员1'
             })
           }
         }
@@ -122,7 +122,7 @@
         } catch (err) {
           wepy.showModal({
             title: '提示',
-            content: '服务器错误，请联系管理员'
+            content: '服务器错误，请联系管理员2'
           })
         }
       }
