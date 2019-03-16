@@ -18,6 +18,7 @@ const request = async (options, showLoading = true) => {
   }
   // 拼接请求地址
   options.url = host + '/' + options.url
+  options.header = options.header || {}
   if (DEBUG) {
     options.header.Cookie = 'XDEBUG_SESSION=PHPSTORM'
   }
