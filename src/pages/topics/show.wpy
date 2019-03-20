@@ -39,7 +39,7 @@
                 </view>
             </view>
             <view class="weui-article">
-                <rich-text nodes="{{ topic.body }}" bindtap="tap"></rich-text>
+                <htmlParser :parserContent.sync="body"></htmlParser>
             </view>
         </view>
     </view>
@@ -48,14 +48,19 @@
     import wepy from 'wepy'
     import api from '@/utils/api'
     import util from '@/utils/util'
+    import htmlParser from '@/components/htmlParser'
 
     export default class TopicShow extends wepy.page {
       config = {
         navigationBarTitleText: '话题详情'
       }
+      components = {
+        htmlParser: htmlParser
+      }
       data = {
             // 话题数据
-        topic: null
+        topic: null,
+        body: null
       }
         // 获取话题数据
       async getTopic(id) {
@@ -72,7 +77,9 @@
           topic.updated_at_diff = util.diffForHumans(topic.updated_at)
 
           this.topic = topic
+          this.body = topic.body
           this.$apply()
+          this.$invoke('htmlParser', 'htmlParserNotice')
         } catch (err) {
           console.log(err)
           wepy.showModal({
