@@ -78,12 +78,11 @@
     async onLoad(options) {
       try {
         this.user = wepy.getStorageSync(options.user)
-        if(!this.user){
+        if (!this.user) {
           let userResponse = await api.request('users/' + options.id)
 
           if (userResponse.statusCode === 200) {
             this.user = userResponse.data
-
           }
         }
         // 格式化注册时间

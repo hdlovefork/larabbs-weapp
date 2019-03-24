@@ -180,5 +180,10 @@
         this.$invoke('topiclist', 'getTopics')
       }
     }
+    onShow() {
+      this.$parent.checkRefreshPages(this.getCurrentPages().pop().route, () => {
+        this.$invoke('topiclist', 'reload')
+      })
+    }
   }
 </script>
