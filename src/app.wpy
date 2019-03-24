@@ -50,6 +50,7 @@
         'pages/topics/index',
         'pages/topics/show',
         'pages/topics/userIndex',
+        'pages/replies/index',
         'pages/users/me',
         'pages/users/edit',
         'pages/users/show',
