@@ -18,6 +18,13 @@
   .topic-title {
     padding: 15px;
   }
+  .create-reply {
+    width: 40px;
+    height: 40px;
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+  }
 </style>
 <template>
   <view class="page">
@@ -46,8 +53,7 @@
       </view>
       <view class="weui-article">
         <htmlParser :parserContent.sync="body"></htmlParser>
-        <button wx:if="{{ canDelete }}" @tap="deleteTopic" class="weui-btn mini-btn" type="default" size="mini">删除
-        </button>
+        <button wx:if="{{ canDelete }}" @tap="deleteTopic" class="weui-btn mini-btn" type="default" size="mini">删除</button>
       </view>
       <!-- 话题回复 -->
       <view class="weui-panel weui-panel_access" wx:if="{{ topic.reply_count }}">
@@ -190,7 +196,6 @@
           this.$apply()
           wepy.setStorageSync(this.userKey, topic.user)
           this.$invoke('htmlParser', 'htmlParserNotice')
-          this.$apply()
         }
         if (topicResponse.statusCode === 404) {
           this.mustRefresh()
@@ -210,6 +215,12 @@
     async onLoad(options) {
       this.getTopic(options.id)
       this.user = await this.$parent.getCurrentUser()
+    }
+
+    async onShow() {
+      this.$parent.checkRefreshPages(this.getCurrentPages().pop().route, () => {
+        this.getTopic(this.topic.id)
+      })
     }
   }
 </script>
