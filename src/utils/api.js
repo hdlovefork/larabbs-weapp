@@ -2,7 +2,7 @@ import wepy from 'wepy'
 
 const DEBUG = true
 // 服务器接口地址
-const host = 'http://larabbs.test/api'
+const host = __BASE_URL__
 
 // 普通请求
 const request = async (options, showLoading = true) => {
