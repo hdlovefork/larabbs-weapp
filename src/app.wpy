@@ -96,6 +96,8 @@
       setInterval(() => {
         this.updateUnreadCount()
       }, 60000)
+      // 获取用户权限
+      this.getPerms()
     }
 
     // 获取未读消息数
@@ -145,6 +147,27 @@
       return user
     }
 
+    async getPerms(){
+      let perms=[]
+      if(!this.checkLogin()){
+        return perms
+      }
+      try{
+        let permsResponse = await api.authRequest('user/permissions', false)
+        // 请求成功，放入 storage 缓存中
+        if (permsResponse.statusCode === 200) {
+          perms = permsResponse.data.data
+          wepy.setStorageSync('perms', perms)
+        }
+      }catch (e) {
+        console.log(e)
+        wepy.showModal({
+          title: '提示',
+          content: '获取用户权限失败，可尝试重启小程序'
+        })
+      }
+    }
+
     // 用户是否已经登录
     checkLogin() {
       return (wepy.getStorageSync('access_token') !== '')
@@ -154,6 +177,23 @@
       refreshPages: [],
       unreadCount: 0
     }
+
+    can(targetPerm) {
+      if (!this.checkLogin()) {
+        return false
+      }
+
+      // 获取缓存中的权限
+      let perms = wepy.getStorageSync('perms') || []
+
+      // 判断权限中是否有目标权限
+      if (perms.find(perm => perm.name === targetPerm)) {
+        return true
+      }
+
+      return false
+    }
+
     checkRefreshPages (route, callback) {
       let refreshIndex = this.globalData.refreshPages.indexOf(route)
       if (refreshIndex === -1) {
